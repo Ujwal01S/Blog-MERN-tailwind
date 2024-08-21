@@ -36,11 +36,11 @@ const Header = () => {
                     <FaMoon />
                 </button>
   
-                    <Link to = '/sign-in'>
-                        <Button gradientDuoTone='purpleToBlue' outline> {/*  flowbite properties */}
+                <Link to = '/sign-in'>
+                    <Button gradientDuoTone='purpleToBlue' outline> {/*  flowbite properties */}
                             Sign In
-                        </Button>
-                    </Link>
+                    </Button>
+                </Link>
                 <Navbar.Toggle />
             </div>
             <Navbar.Collapse>
