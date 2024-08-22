@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {Button, Label, TextInput} from 'flowbite-react'
+import {Alert, Button, Label, Spinner, TextInput} from 'flowbite-react'
 
 const SignUp = () => {
   
@@ -34,6 +34,7 @@ const SignUp = () => {
       const data = await res.json();
       console.log(data);
       if(data.success === false){
+        setLoading(false);
         return setErrorMessage(data.message);
       }
 
@@ -56,9 +57,9 @@ const SignUp = () => {
         <div className="flex-1">
           <Link to="/" className="font-bold dark:text-white text-4xl">
             <span className="px-2 bg-gradient-to-t from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white">
-              Anoymous
+              Sign
             </span>
-            Blog
+            Up
           </Link>
           <p className="text-sm mt-5">
             This is a demo project. You can signup with your email and passowrd or with Google.
@@ -99,8 +100,16 @@ const SignUp = () => {
 
             <Button
             gradientDuoTone='purpleToPink'
-            type="submit">
-              Signup
+            type="submit"
+            disabled={loading}>
+              {loading ? (
+                <>
+                <Spinner size='sm'/>
+                <span className="pl-3">Loading...</span>
+                </>
+              ) : (
+                'Sign Up'
+              )}
             </Button>
             
           </form>
@@ -109,6 +118,11 @@ const SignUp = () => {
             <Link to= 'sign-in' className="text-blue-500">
             SignIn</Link>
           </div>
+          {errorMessage && (
+            <Alert className="mt-5" color="failure">
+              {errorMessage}
+            </Alert>
+          )}
         </div>
       </div>
     </div>
