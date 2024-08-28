@@ -16,12 +16,15 @@ import {
   updateFailure,
   deleteStart,
   deleteSuccess,
-  deleteFailure
+  deleteFailure,
+  signOutSuccess
 } from "../redux/user/userSlice";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { useNavigate } from 'react-router-dom';
 
 const DashProfile = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
 
   const filePickerRef = useRef();
@@ -149,6 +152,23 @@ const DashProfile = () => {
     }
   };
 
+  const handleSignOut = async() => {
+    try {
+      const res = await fetch(`api/user/signout`, {
+        method: "POST",
+      });
+      const data = await res.json();
+      if(!res.ok){
+        console.log(data.message);
+      }else{
+        dispatch(signOutSuccess());
+        navigate('/sign-in');
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
 
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
@@ -219,8 +239,8 @@ const DashProfile = () => {
         </div>
       </form>
       <div className="text-red-500 flex justify-between mt-3">
-        <span onClick={() => setShowModal(true)}>Delete</span>
-        <span>Edit</span>
+        <span className="cursor-pointer" onClick={() => setShowModal(true)}>Delete</span>
+        <span className="cursor-pointer" onClick={handleSignOut}>Sign Out</span>
       </div>
 
       {updateUserSuccess && <Alert color="success">{updateUserSuccess}</Alert>}

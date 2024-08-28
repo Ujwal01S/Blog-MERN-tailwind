@@ -1,13 +1,34 @@
 import React from 'react'
 import {Avatar, Button, Dropdown, DropdownDivider, DropdownHeader, DropdownItem, Navbar, TextInput} from 'flowbite-react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { IoIosSearch } from "react-icons/io";
 import { FaMoon } from "react-icons/fa";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { signOutSuccess } from '../redux/user/userSlice';
 
 const Header = () => {
+    const dispatch = useDispatch();
     const path = useLocation().pathname;
+    const navigate = useNavigate();
     const { currentUser } = useSelector(state => state.user);
+
+    const handleSignOut = async() => {
+        try {
+            const res = await fetch(`api/user/signout`, {
+              method: "POST",
+            });
+            const data = await res.json();
+            if(!res.ok){
+              console.log(data.message);
+            }else{
+              dispatch(signOutSuccess());
+              navigate('/sign-in');
+            }
+          } catch (error) {
+            console.log(error.message);
+          }
+    };
+
   return (
     <div>
         <Navbar className='border-b-2'>
@@ -54,7 +75,7 @@ const Header = () => {
                             <DropdownItem>Profile</DropdownItem>
                         </Link>
                         <DropdownDivider />
-                        <DropdownItem>SignOut</DropdownItem>
+                        <DropdownItem onClick={handleSignOut}>SignOut</DropdownItem>
                     </Dropdown>
                 ) : (
   
