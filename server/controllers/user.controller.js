@@ -43,6 +43,7 @@ export const test = (req, res) => {
     }
   
     try {
+     
       const updatedUser = await User.findByIdAndUpdate(
         req.params.userId,
         {

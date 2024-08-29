@@ -20,12 +20,12 @@ import {
   signOutSuccess
 } from "../redux/user/userSlice";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const DashProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, error, loading:reduxLoading } = useSelector((state) => state.user);
 
   const filePickerRef = useRef();
 
@@ -41,6 +41,7 @@ const DashProfile = () => {
   const [formData, setFormData] = useState({});
 
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -145,6 +146,7 @@ const DashProfile = () => {
         dispatch(deleteFailure(data.message));
       } else {
         dispatch(deleteSuccess(data));
+        navigate('/sign-in');
       }
 
     } catch (error) {
@@ -235,7 +237,15 @@ const DashProfile = () => {
             placeholder="Change Your Password"
             onChange={handleChange}
           />
-          <Button type="submit">Submit</Button>
+          <Button type="submit" disabled = {loading || imageFileUploading}>
+            {loading ? 'loading...' : 'Update'}
+          </Button>
+
+          {currentUser.isAdmin && (
+            <Link to = '/create-post'>
+            <Button type="submit" gradientDuoTone='purpleToBlue' className='w-full'>Create Post</Button>
+            </Link>
+          )}
         </div>
       </form>
       <div className="text-red-500 flex justify-between mt-3">
