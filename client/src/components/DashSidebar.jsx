@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { Sidebar, SidebarItem, SidebarItemGroup, SidebarItems } from 'flowbite-react'
 import { useSelector, useDispatch } from 'react-redux';
-import {HiArrowSmRight, HiChartPie, HiUser} from 'react-icons/hi';
+import {HiArrowSmRight, HiChartPie, HiDocumentText, HiUser} from 'react-icons/hi';
 import { Link , useLocation} from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { signOutSuccess } from '../redux/user/userSlice';
@@ -10,7 +10,7 @@ import { signOutSuccess } from '../redux/user/userSlice';
 
 const DashSidebar = () => {
 
-    const currentUser = useSelector(state => state.user);
+    const {currentUser} = useSelector(state => state.user);
     const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -47,8 +47,8 @@ const DashSidebar = () => {
   return (
     <Sidebar className='w-full md:w-56'>
         <SidebarItems>
-            <SidebarItemGroup>
-                {currentUser && (
+            <SidebarItemGroup className='flex flex-col gap-2 '>
+                {currentUser && currentUser.isAdmin && (
                     <Link to='/dashboard?tab=dash'>
                         <SidebarItem
                         active = {tab === 'dash'}
@@ -65,12 +65,26 @@ const DashSidebar = () => {
                         <SidebarItem
                         active = {tab === 'profile'}
                         icon = {HiUser}
-                        label = 'User'
+                        label = {currentUser.isAdmin ? 'Admin' : 'User'}
                         as = 'div'
                         >
                             Profile
                         </SidebarItem>  
                     </Link>
+
+                  {currentUser.isAdmin && (
+                    <Link to = '/dashboard?tab=posts'>
+                      <SidebarItem 
+                      active= {tab === 'posts'}
+                      icon = {HiDocumentText}
+                      as= 'div'
+                      >
+                        Posts
+                      </SidebarItem>
+                    </Link>
+                  )}
+
+
                 <SidebarItem
                 icon = {HiArrowSmRight}
                 className = 'cursor-pointer'
