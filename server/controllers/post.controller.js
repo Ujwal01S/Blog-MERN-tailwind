@@ -55,7 +55,7 @@ export const getPosts = async(req, res, next) => {
 
         const oneMonthAgo = new Date(
             now.getFullYear(),
-            now.getMonth() -1,
+            now.getMonth() - 1,
             now.getDate()
         );
 
