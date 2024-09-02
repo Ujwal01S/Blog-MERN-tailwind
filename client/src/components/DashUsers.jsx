@@ -148,7 +148,7 @@ const DashUsers = () => {
       )}
       </>
       ) : 
-      (<p> You not created any users yet</p>)
+      (<p> You did not created any users yet</p>)
       }
       <Modal
         show={showModal}

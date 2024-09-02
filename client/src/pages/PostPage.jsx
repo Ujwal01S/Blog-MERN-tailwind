@@ -72,7 +72,7 @@ const PostPage = () => {
     </div>
 
     <div className="p-3 max-w-2xl mx-auto w-full post-content"
-    dangerousleySetInnerHTML = {{ __html: post && post.content}}>
+    dangerousleysetinnerhtml = {{ __html: post && post.content}}>
     </div>
 
     <div className="max-w-4xl mx-auto w-full">
